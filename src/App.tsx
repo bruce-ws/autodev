@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {PureComponent,Suspense} from 'react';
 import './App.css';
+const Case = React.lazy(() => import('./components/case'))
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          哈哈哈奥尔加卡尔空间
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IProps {}
+interface IState {
+  num : Number
+}
+class App extends PureComponent<IProps,IState> {
+  constructor(props:IProps){
+    super(props)
+    this.state  = {
+      num : 1
+    }
+    this.handle = this.handle.bind(this)
+  }
+  handle(){
+    this.setState((state) => {
+      let count:any = state.num
+      console.log(count)
+      return {
+        num : 20
+      }
+    })
+  }
+  // handle = (): void => {
+  //   console.log(this)
+  // }
+  
+  render() {
+    console.log('app组件渲染')
+    return (
+      
+      <div>
+        <h2 onClick={this.handle}>{this.state.num}</h2>
+        <Suspense fallback={<div>loading...</div>}>
+          <Case/>
+        </Suspense>
+      </div>
+    )
+  }
+
 }
 
 export default App;
